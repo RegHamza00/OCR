@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Search</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        /* Optional: Add custom styles here */
+        body {
+            background-color: #f8f9fa;
+        }
+        .search-container {
+            margin-top: 50px; /* Adjust the top margin as needed */
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-md-4 search-container">
+                <h1 class="text-center">Document Upload</h1>
+                <form id="search-form" method="POST" enctype="multipart/form-data" action="/">
+                    <!--<div class="form-group">
+                        <label for="Document_type">Document Type:</label><br>
+                        <input type="radio" name="document_type" value="flight_ticket"> Flight Ticket<br>
+                        <input type="radio" name="document_type" value="fatura"> Fatura<br>
+                    </div>-->
+
+                    <div class="form-group">
+                        <label for="file">Upload Fatura:</label>
+                        <input type="file" class="form-control-file" name="file" accept=".pdf, .jpg, .jpeg, .png" required>
+                    </div>
+                    <!-- <div class="form-group">
+                        <label for="file">Upload Flight Ticket:</label>
+                        <input type="file" class="form-control-file" name="flight" accept=".pdf, .jpg, .jpeg, .png" required>
+                    </div> -->
+
+                    <button type="submit" class="btn btn-primary btn-block" id="submit-button">Search</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Bootstrap JS and Popper.js -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+   <!-- Add jQuery script for form submission -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#search-form").submit(function (event) {
+            event.preventDefault();
+
+            $("#submit-button").prop("disabled", true);
+            setTimeout(function () {
+                $("#loading-message").html('<div class="alert alert-info" role="alert">Processing document..., the process may take around 10 seconds</div>');
+            }, 800);
+
+            $.ajax({
+                type: "POST",
+                url: "/",  
+                data: new FormData(this),
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    $("#result-container").html(data);
+
+                    $("#loading-message").html('<div class="alert alert-success" role="alert">Document processed successfully!</div>');
+
+                },
+                error: function () {
+                    $("#result-container").html('<div class="alert alert-danger" role="alert">Error processing document.</div>');
+                },
+                complete: function () {
+                    $("#submit-button").prop("disabled", false);
+                }
+            });
+        });
+    });
+</script>
+
+<div id="loading-message" class="alert" role="alert"></div>
+<div id="result-container" class="alert" role="alert"></div>
+<div id="result-info" class="alert" role="alert"></div>

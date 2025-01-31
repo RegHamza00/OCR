@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Result</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <style>
+        .result-animation {
+            animation-duration: 1s;
+        }
+
+        .result-success {
+            animation-name: fadeInGreen;
+        }
+
+        .result-failure {
+            animation-name: fadeInRed;
+        }
+
+        @keyframes fadeInGreen {
+            from {
+                background-color: transparent;
+            }
+            to {
+                background-color: #d4edda;
+            }
+        }
+
+        @keyframes fadeInRed {
+            from {
+                background-color: transparent;
+            }
+            to {
+                background-color: #f8d7da; 
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="resultContainer">
+        {% if message %}
+            <div class="result-animation result-success alert alert-success" role="alert">
+                <span class="animate__animated animate__fadeIn">&#10003;</span> {{message}}
+            </div>
+        {% endif %}
+        {% if error_message %}
+            <div class="result-animation result-failure alert alert-danger" role="alert">
+                <span class="animate__animated animate__fadeIn">&#10007;</span> {{error_message}}
+            </div>
+        {% else %}
+           
+            {% if result[0] %}
+                <div class="result-animation result-success alert alert-success" role="alert">
+                    <span class="animate__animated animate__fadeIn">&#10003;</span> Billet tutar: {{ result[0] }}
+                </div>
+            {% else %}
+                <div class="result-animation result-failure alert alert-danger" role="alert">
+                    <span class="animate__animated animate__fadeIn">&#10007;</span> Unable to get Billet tutar.
+                </div>
+            {% endif %}
+
+            {% if result[1] %}
+                <div class="result-animation result-success alert alert-success" role="alert">
+                    <span class="animate__animated animate__fadeIn">&#10003;</span> İND. BED.(%60): {{ result[1] }}
+                </div>
+            {% else %}
+                <div class="result-animation result-failure alert alert-danger" role="alert">
+                    <span class="animate__animated animate__fadeIn">&#10007;</span> Unable to get İncintive amount.
+                </div>
+            {% endif %}
+            {% if result[2] %}
+                <div class="result-animation result-success alert alert-success" role="alert">
+                    <span class="animate__animated animate__fadeIn">&#10003;</span> Toplam Totari: {{ result[2] }}
+                </div>
+            {% else %}
+                <div class="result-animation result-failure alert alert-danger" role="alert">
+                    <span class="animate__animated animate__fadeIn">&#10007;</span> Unable to get Toplam Totari.
+                </div>
+            {% endif %}
+            {% if result[3] %}
+                <div class="result-animation result-success alert alert-success" role="alert">
+                    <span class="animate__animated animate__fadeIn">&#10003;</span> Paasenger Name: {{ result[3] }}
+                </div>
+            {% else %}
+                <div class="result-animation result-failure alert alert-danger" role="alert">
+                    <span class="animate__animated animate__fadeIn">&#10007;</span> Unable to get Passenger Name.
+                </div>
+            {% endif %}
+        {% endif %}  
+      
+    </div>
+
+    <script>
+        setTimeout(function() {
+            document.getElementById('resultContainer').classList.add('animate__animated');
+        }, 700);
+    </script>
+
+</body>
+</html>
